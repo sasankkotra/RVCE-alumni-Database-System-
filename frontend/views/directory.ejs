@@ -1,0 +1,350 @@
+<div class="container mt-4">
+    <div class="content-card">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2><i class="fas fa-users text-maroon me-2"></i>Alumni Directory</h2>
+                <p class="text-muted mb-0">Connect with verified RVCE alumni worldwide</p>
+            </div>
+        </div>
+        
+        <!-- Filter Section -->
+        <div class="card mb-4" style="background-color: #f8f9fa;">
+            <div class="card-body">
+                <h5 class="card-title mb-3">
+                    <i class="fas fa-robot me-2 text-primary"></i>AI-Powered Search
+                    <span class="badge bg-primary ms-2">NEW</span>
+                </h5>
+                <p class="text-muted small mb-3">
+                    Try vague searches like "chip design", "construction", "AI", "web development", etc. 
+                    Our AI will find the most relevant alumni!
+                </p>
+                <div class="row">
+                    <div class="col-md-10 mb-2">
+                        <input type="text" class="form-control form-control-lg" id="aiSearchQuery" 
+                               placeholder="e.g., machine learning, hardware engineering, construction..." 
+                               onkeypress="if(event.key==='Enter') aiSearch()">
+                    </div>
+                    <div class="col-md-2 mb-2">
+                        <button class="btn btn-primary w-100 btn-lg" onclick="aiSearch()">
+                            <i class="fas fa-magic me-1"></i>AI Search
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="mt-3">
+                    <button class="btn btn-sm btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#advancedFilters">
+                        <i class="fas fa-sliders-h me-1"></i>Advanced Filters
+                    </button>
+                </div>
+                
+                <div class="collapse mt-3" id="advancedFilters">
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-3 mb-2">
+                            <input type="text" class="form-control" id="filterName" placeholder="Search by name...">
+                        </div>
+                        <div class="col-md-2 mb-2">
+                            <select class="form-select" id="filterBranch">
+                                <option value="">All Branches</option>
+                                <option value="CSE">CSE</option>
+                                <option value="ISE">ISE</option>
+                                <option value="ECE">ECE</option>
+                                <option value="ME">ME</option>
+                                <option value="EEE">EEE</option>
+                                <option value="AI/ML">AI/ML</option>
+                                <option value="AE">Aerospace</option>
+                                <option value="CV">Civil</option>
+                                <option value="CH">Chemical</option>
+                                <option value="BT">Biotech</option>
+                                <option value="IEM">IEM</option>
+                                <option value="ET">ET</option>
+                                <option value="EIE">EIE</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <input type="text" class="form-control" id="filterField" placeholder="Field/Specialization">
+                        </div>
+                        <div class="col-md-2 mb-2">
+                            <input type="text" class="form-control" id="filterCity" placeholder="City">
+                        </div>
+                        <div class="col-md-2 mb-2">
+                            <button class="btn btn-rvce-maroon w-100" onclick="loadDirectory()">
+                                <i class="fas fa-search me-1"></i>Filter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Stats -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <h3 id="totalCount">0</h3>
+                    <p>Total Alumni</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Alumni Grid -->
+        <div id="alumniGrid" class="row">
+            <!-- Alumni cards will be loaded here -->
+        </div>
+    </div>
+</div>
+
+<script>
+async function loadDirectory() {
+    const alumniGrid = document.getElementById('alumniGrid');
+    const totalCount = document.getElementById('totalCount');
+    
+    // Show loading
+    alumniGrid.innerHTML = '<div class="col-12 text-center"><div class="spinner-border text-maroon"></div><p class="mt-2">Loading alumni...</p></div>';
+    
+    try {
+        // Get filter values - check if elements exist first
+        const branchEl = document.getElementById('filterBranch');
+        const fieldEl = document.getElementById('filterField');
+        const cityEl = document.getElementById('filterCity');
+        const nameEl = document.getElementById('filterName');
+        
+        const branch = branchEl ? branchEl.value : '';
+        const field = fieldEl ? fieldEl.value : '';
+        const city = cityEl ? cityEl.value : '';
+        const name = nameEl ? nameEl.value : '';
+        
+        // Build query string
+        const params = new URLSearchParams();
+        if (branch) params.append('branch', branch);
+        if (field) params.append('field', field);
+        if (city) params.append('city', city);
+        
+        console.log('Fetching alumni from:', `/api/alumni/public?${params.toString()}`);
+        
+        const response = await fetch(`/api/alumni/public?${params.toString()}`);
+        const data = await response.json();
+        
+        console.log('Alumni data received:', data);
+        
+        if (data.success) {
+            const alumni = data.data;
+            
+            // Filter by name on client side
+            const filtered = name 
+                ? alumni.filter(a => a.name.toLowerCase().includes(name.toLowerCase()))
+                : alumni;
+            
+            totalCount.textContent = filtered.length;
+            
+            if (filtered.length === 0) {
+                alumniGrid.innerHTML = `
+                    <div class="col-12 text-center py-5">
+                        <i class="fas fa-users fa-3x text-muted mb-3"></i>
+                        <p class="text-muted">No alumni found matching your criteria</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            alumniGrid.innerHTML = filtered.map(alumnus => `
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100 alumni-card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h5 class="card-title mb-1">${alumnus.name}</h5>
+                                    <span class="badge bg-success">${alumnus.branch} '${String(alumnus.graduation_year).slice(-2)}</span>
+                                </div>
+                                ${alumnus.verified ? '<i class="fas fa-check-circle text-success" title="Verified"></i>' : ''}
+                            </div>
+                            
+                            <div class="alumni-info">
+                                ${alumnus.company ? `
+                                    <p class="mb-2">
+                                        <i class="fas fa-building text-maroon me-2"></i>
+                                        <strong>${alumnus.company}</strong>
+                                    </p>
+                                ` : ''}
+                                
+                                ${alumnus.field ? `
+                                    <p class="mb-2">
+                                        <i class="fas fa-code text-gold me-2"></i>
+                                        ${alumnus.field}
+                                    </p>
+                                ` : ''}
+                                
+                                ${alumnus.city ? `
+                                    <p class="mb-2">
+                                        <i class="fas fa-map-marker-alt text-muted me-2"></i>
+                                        ${alumnus.city}${alumnus.state ? ', ' + alumnus.state : ''}${alumnus.country ? ', ' + alumnus.country : ''}
+                                    </p>
+                                ` : ''}
+                            </div>
+                            
+                            <div class="mt-3">
+                                <small class="text-muted">
+                                    <i class="fas fa-info-circle me-1"></i>
+                                    Contact details visible after mentorship connection
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        } else {
+            alumniGrid.innerHTML = `
+                <div class="col-12 text-center">
+                    <p class="text-danger">Failed to load alumni directory</p>
+                </div>
+            `;
+        }
+    } catch (error) {
+        console.error('Load directory error:', error);
+        alumniGrid.innerHTML = `
+            <div class="col-12 text-center">
+                <p class="text-danger">Error loading alumni directory</p>
+            </div>
+        `;
+    }
+}
+
+async function aiSearch() {
+    const query = document.getElementById('aiSearchQuery').value.trim();
+    const alumniGrid = document.getElementById('alumniGrid');
+    const totalCount = document.getElementById('totalCount');
+    
+    if (!query) {
+        alert('Please enter a search query');
+        return;
+    }
+    
+    // Show loading with AI animation
+    alumniGrid.innerHTML = `
+        <div class="col-12 text-center py-5">
+            <div class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;"></div>
+            <h5 class="text-primary"><i class="fas fa-robot me-2"></i>AI is analyzing your query...</h5>
+            <p class="text-muted">Finding the most relevant alumni for "${query}"</p>
+        </div>
+    `;
+    
+    try {
+        const response = await fetch('/api/alumni/ai-search', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ query })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            const alumni = data.data;
+            totalCount.textContent = alumni.length;
+            
+            // Show AI-powered badge
+            const searchHeader = document.querySelector('.card-title');
+            if (data.aiPowered && !searchHeader.querySelector('.ai-result-badge')) {
+                const badge = document.createElement('span');
+                badge.className = 'badge bg-success ms-2 ai-result-badge';
+                badge.innerHTML = '<i class="fas fa-check-circle me-1"></i>AI Results';
+                searchHeader.appendChild(badge);
+            }
+            
+            if (alumni.length === 0) {
+                alumniGrid.innerHTML = `
+                    <div class="col-12 text-center py-5">
+                        <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                        <h5>No alumni found</h5>
+                        <p class="text-muted">Try a different search term or use advanced filters</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            alumniGrid.innerHTML = alumni.map(alumnus => `
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100 alumni-card shadow-sm">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h5 class="card-title mb-1">${alumnus.name}</h5>
+                                    <span class="badge bg-success">${alumnus.branch} '${String(alumnus.graduation_year).slice(-2)}</span>
+                                </div>
+                                ${alumnus.verified ? '<i class="fas fa-check-circle text-success" title="Verified"></i>' : ''}
+                            </div>
+                            
+                            <div class="alumni-info">
+                                ${alumnus.company ? `
+                                    <p class="mb-2">
+                                        <i class="fas fa-building text-maroon me-2"></i>
+                                        <strong>${alumnus.company}</strong>
+                                    </p>
+                                ` : ''}
+                                
+                                ${alumnus.field ? `
+                                    <p class="mb-2">
+                                        <i class="fas fa-code text-gold me-2"></i>
+                                        ${alumnus.field}
+                                    </p>
+                                ` : ''}
+                                
+                                ${alumnus.city ? `
+                                    <p class="mb-2">
+                                        <i class="fas fa-map-marker-alt text-muted me-2"></i>
+                                        ${alumnus.city}${alumnus.state ? ', ' + alumnus.state : ''}${alumnus.country ? ', ' + alumnus.country : ''}
+                                    </p>
+                                ` : ''}
+                            </div>
+                            
+                            <div class="mt-3">
+                                <small class="text-muted">
+                                    <i class="fas fa-info-circle me-1"></i>
+                                    Contact details visible after mentorship connection
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        } else {
+            alumniGrid.innerHTML = `
+                <div class="col-12 text-center">
+                    <p class="text-danger">${data.message || 'Search failed'}</p>
+                </div>
+            `;
+        }
+    } catch (error) {
+        console.error('AI search error:', error);
+        alumniGrid.innerHTML = `
+            <div class="col-12 text-center py-5">
+                <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
+                <h5>Search Error</h5>
+                <p class="text-muted">Please try again or use advanced filters</p>
+            </div>
+        `;
+    }
+}
+
+// Load on page load
+document.addEventListener('DOMContentLoaded', loadDirectory);
+</script>
+
+<style>
+.alumni-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-left: 4px solid var(--rvce-maroon);
+}
+
+.alumni-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(139, 0, 0, 0.15);
+}
+
+.alumni-info p {
+    font-size: 0.9rem;
+}
+
+.alumni-info i {
+    width: 20px;
+}
+</style>

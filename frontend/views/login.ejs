@@ -1,0 +1,152 @@
+<div class="auth-container">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5">
+                <div class="auth-card">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-graduation-cap fa-3x text-maroon"></i>
+                        <h2 class="mt-3">RVCE Alumni Login</h2>
+                        <p class="text-muted">Welcome back! Please login to your account</p>
+                    </div>
+                    
+                    <div id="alert-container"></div>
+                    
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="role" class="form-label">Login As</label>
+                            <select class="form-select" id="role" name="role" required>
+                                <option value="alumni">Alumni</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-rvce-maroon w-100" id="loginBtn">
+                            <i class="fas fa-sign-in-alt me-2"></i><span id="btnText">Login</span>
+                        </button>
+                    </form>
+                    
+                    <div class="text-center mt-4">
+                        <p>Don't have an account? <a href="/register" class="text-gold">Register here</a></p>
+                    </div>
+                    
+                    <div class="text-center mt-3 p-3" style="background-color: #f8f9fa; border-radius: 8px;">
+                        <small class="text-muted">
+                            <strong>Quick Test Credentials:</strong><br>
+                            <div class="mt-2">
+                                <button class="btn btn-sm btn-outline-primary" onclick="fillAlumni(event)">
+                                    <i class="fas fa-user"></i> Use Alumni Account
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger ms-2" onclick="fillAdmin(event)">
+                                    <i class="fas fa-user-shield"></i> Use Admin Account
+                                </button>
+                            </div>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+console.log('Login page loaded successfully');
+
+// Quick fill functions
+function fillAlumni(e) {
+    e.preventDefault();
+    document.getElementById('email').value = 'arjun.reddy@nvidia.com';
+    document.getElementById('password').value = 'alumni123';
+    document.getElementById('role').value = 'alumni';
+    console.log('Filled alumni credentials');
+}
+
+function fillAdmin(e) {
+    e.preventDefault();
+    document.getElementById('email').value = 'admin@rvce.edu.in';
+    document.getElementById('password').value = 'admin123';
+    document.getElementById('role').value = 'admin';
+    console.log('Filled admin credentials');
+}
+
+// Login form handler
+document.getElementById('loginForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    console.log('Form submitted');
+    
+    const alertContainer = document.getElementById('alert-container');
+    const loginBtn = document.getElementById('loginBtn');
+    const btnText = document.getElementById('btnText');
+    
+    // Get form values
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const role = document.getElementById('role').value;
+    
+    console.log('Login attempt:', { email, role });
+    
+    // Disable button
+    loginBtn.disabled = true;
+    btnText.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Logging in...';
+    
+    try {
+        console.log('Sending request to /api/auth/login');
+        
+        const response = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            credentials: 'include',
+            body: JSON.stringify({ email, password, role })
+        });
+        
+        console.log('Response status:', response.status);
+        
+        const data = await response.json();
+        console.log('Response data:', data);
+        
+        if (response.ok && data.success) {
+            showAlert('success', '✓ Login successful! Redirecting to dashboard...');
+            setTimeout(() => {
+                window.location.href = '/dashboard';
+            }, 1500);
+        } else {
+            showAlert('danger', '✗ ' + (data.message || 'Login failed. Please check your credentials.'));
+            loginBtn.disabled = false;
+            btnText.textContent = 'Login';
+        }
+    } catch (error) {
+        console.error('Login error:', error);
+        showAlert('danger', '✗ Network error. Please check if the server is running.');
+        loginBtn.disabled = false;
+        btnText.textContent = 'Login';
+    }
+});
+
+function showAlert(type, message) {
+    const alertContainer = document.getElementById('alert-container');
+    alertContainer.innerHTML = `
+        <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    `;
+    console.log('Alert shown:', type, message);
+}
+
+// Test button click
+document.getElementById('loginBtn').addEventListener('click', function() {
+    console.log('Login button clicked');
+});
+</script>

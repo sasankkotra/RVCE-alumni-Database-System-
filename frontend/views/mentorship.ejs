@@ -1,0 +1,88 @@
+<div class="container mt-4">
+    <h2 class="page-title mb-4"><i class="fas fa-user-friends me-2"></i>Mentorship Program</h2>
+    
+    <!-- Tab Navigation with inline styling for visibility -->
+    <ul class="nav nav-tabs nav-fill mb-4" id="mentorshipTabs" role="tablist" style="border-bottom: 3px solid #8B0000; background-color: #f8f9fa; padding: 10px 0;">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="findMentors-tab" data-bs-toggle="tab" data-bs-target="#findMentors" type="button" role="tab" style="font-weight: 600; font-size: 1.1rem; color: #8B0000; border: 2px solid transparent;">
+                <i class="fas fa-search me-2"></i>Find Mentors
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="myRequests-tab" data-bs-toggle="tab" data-bs-target="#myRequests" type="button" role="tab" style="font-weight: 600; font-size: 1.1rem; color: #555; border: 2px solid transparent;">
+                <i class="fas fa-paper-plane me-2"></i>My Requests
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="receivedRequests-tab" data-bs-toggle="tab" data-bs-target="#receivedRequests" type="button" role="tab" style="font-weight: 600; font-size: 1.1rem; color: #555; border: 2px solid transparent;">
+                <i class="fas fa-inbox me-2"></i>Incoming Requests
+            </button>
+        </li>
+    </ul>
+    
+    <style>
+        #mentorshipTabs .nav-link {
+            padding: 12px 24px;
+            margin: 0 5px;
+            border-radius: 8px 8px 0 0;
+            transition: all 0.3s;
+        }
+        #mentorshipTabs .nav-link:hover {
+            background-color: #fff;
+            color: #8B0000 !important;
+            border: 2px solid #8B0000 !important;
+        }
+        #mentorshipTabs .nav-link.active {
+            background-color: #8B0000 !important;
+            color: #fff !important;
+            border: 2px solid #8B0000 !important;
+        }
+    </style>
+    
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="findMentors">
+            <div class="content-card mb-4">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <select class="form-select" id="mentorBranch">
+                            <option value="">All Branches</option>
+                            <option value="CSE">CSE</option>
+                            <option value="ISE">ISE</option>
+                            <option value="ECE">ECE</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="mentorField" placeholder="Field (e.g., AI/ML)">
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-rvce-maroon w-100" onclick="searchMentors()">Search</button>
+                    </div>
+                </div>
+            </div>
+            <div id="mentorsContainer">
+                <div class="text-center py-4">
+                    <div class="spinner-border text-maroon"></div>
+                    <p class="mt-2">Loading mentors...</p>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="myRequests">
+            <div id="sentRequestsContainer">
+                <div class="text-center py-4">
+                    <div class="spinner-border text-maroon"></div>
+                    <p class="mt-2">Loading your requests...</p>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="receivedRequests">
+            <div id="receivedRequestsContainer">
+                <div class="text-center py-4">
+                    <div class="spinner-border text-maroon"></div>
+                    <p class="mt-2">Loading incoming requests...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/mentorship.js"></script>

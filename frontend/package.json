@@ -1,0 +1,12 @@
+{
+  "name": "rvce-alumni-portal-frontend",
+  "version": "1.0.0",
+  "description": "RVCE Alumni Portal - Frontend",
+  "private": true,
+  "scripts": {
+    "start": "echo 'Frontend served by backend EJS templates'"
+  },
+  "keywords": ["alumni", "rvce", "portal"],
+  "author": "RVCE",
+  "license": "MIT"
+}

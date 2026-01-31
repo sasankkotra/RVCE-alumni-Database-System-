@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= typeof title !== 'undefined' ? title : 'RVCE Alumni Portal' %></title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark rvce-nav sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <i class="fas fa-graduation-cap me-2"></i>
+                <span class="fw-bold">RVCE Alumni Portal</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <% if (user) { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/dashboard"><i class="fas fa-tachometer-alt me-1"></i>Dashboard</a>
+                        </li>
+                        <% if (user.role === 'alumni') { %>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/jobs"><i class="fas fa-briefcase me-1"></i>Jobs</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/events"><i class="fas fa-calendar me-1"></i>Events</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/mentorship"><i class="fas fa-user-friends me-1"></i>Mentorship</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/messages"><i class="fas fa-envelope me-1"></i>Messages</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/profile"><i class="fas fa-user me-1"></i>Profile</a>
+                            </li>
+                        <% } else if (user.role === 'admin') { %>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin"><i class="fas fa-cog me-1"></i>Admin Panel</a>
+                            </li>
+                        <% } %>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user-circle me-1"></i><%= user.name %>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                            </ul>
+                        </li>
+                    <% } else { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/directory"><i class="fas fa-users me-1"></i>Alumni Directory</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-rvce-gold text-dark ms-2" href="/register">Register</a>
+                        </li>
+                    <% } %>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <%- include(page) %>
+    </main>
+
+    <!-- Footer -->
+    <footer class="rvce-footer mt-5 py-4">
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <h5 class="text-gold">RV College of Engineering</h5>
+                    <p class="mb-1">Mysore Road, Bengaluru - 560059, Karnataka, India</p>
+                    <p class="mb-0"><i class="fas fa-phone me-2"></i>+91-80-67178000</p>
+                </div>
+            </div>
+            <hr class="bg-gold">
+            <p class="mb-0">&copy; <%= new Date().getFullYear() %> RVCE Alumni Portal | All Rights Reserved</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="/js/main.js"></script>
+</body>
+</html>

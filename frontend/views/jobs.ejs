@@ -1,0 +1,80 @@
+<div class="container mt-4">
+    <h2 class="page-title mb-4"><i class="fas fa-briefcase me-2"></i>Job Opportunities</h2>
+    
+    <% if (user.verified) { %>
+    <button class="btn btn-rvce-maroon mb-4" data-bs-toggle="modal" data-bs-target="#postJobModal">
+        <i class="fas fa-plus me-2"></i>Post a Job
+    </button>
+    <% } %>
+    
+    <div class="content-card mb-4">
+        <h5>Filters</h5>
+        <div class="row g-3">
+            <div class="col-md-3">
+                <input type="text" class="form-control" id="filterCompany" placeholder="Company">
+            </div>
+            <div class="col-md-3">
+                <input type="text" class="form-control" id="filterLocation" placeholder="Location">
+            </div>
+            <div class="col-md-3">
+                <select class="form-select" id="filterBranch">
+                    <option value="">All Branches</option>
+                    <option value="CSE">CSE</option>
+                    <option value="ISE">ISE</option>
+                    <option value="ECE">ECE</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-outline-maroon w-100" onclick="loadJobs()">Apply Filters</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="jobsContainer">Loading jobs...</div>
+</div>
+
+<!-- Post Job Modal -->
+<div class="modal fade" id="postJobModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Post a Job</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="postJobForm">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Job Title *</label>
+                        <input type="text" class="form-control" name="title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Company *</label>
+                        <input type="text" class="form-control" name="company" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Location *</label>
+                        <input type="text" class="form-control" name="location" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control" name="description" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Required Branch</label>
+                        <input type="text" class="form-control" name="required_branch" placeholder="CSE,ISE">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Required Field</label>
+                        <input type="text" class="form-control" name="required_field">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-rvce-maroon">Post Job</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="/js/jobs.js"></script>

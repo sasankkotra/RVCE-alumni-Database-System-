@@ -1,0 +1,66 @@
+<div class="container mt-4">
+    <h2 class="page-title mb-4"><i class="fas fa-cog me-2"></i>Admin Panel</h2>
+    
+    <ul class="nav nav-tabs mb-4">
+        <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#verifications">Verifications</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#allAlumni">All Alumni</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#manageEvents">Manage Events</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#reports">Reports</a></li>
+    </ul>
+    
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="verifications">
+            <div id="verificationsContainer">Loading...</div>
+        </div>
+        <div class="tab-pane fade" id="allAlumni">
+            <div id="alumniContainer">Loading...</div>
+        </div>
+        <div class="tab-pane fade" id="manageEvents">
+            <button class="btn btn-rvce-maroon mb-3" data-bs-toggle="modal" data-bs-target="#createEventModal">
+                <i class="fas fa-plus me-2"></i>Create Event
+            </button>
+            <div id="eventsContainer">Loading...</div>
+        </div>
+        <div class="tab-pane fade" id="reports">
+            <div id="reportsContainer">Loading...</div>
+        </div>
+    </div>
+</div>
+
+<!-- Create Event Modal -->
+<div class="modal fade" id="createEventModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create Event</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="createEventForm">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Event Name *</label>
+                        <input type="text" class="form-control" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control" name="description" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Event Date *</label>
+                        <input type="date" class="form-control" name="event_date" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Location *</label>
+                        <input type="text" class="form-control" name="location" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-rvce-maroon">Create Event</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="/js/admin.js"></script>

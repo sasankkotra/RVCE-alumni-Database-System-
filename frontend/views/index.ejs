@@ -1,0 +1,184 @@
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="hero-overlay">
+        <div class="container text-center text-white">
+            <h1 class="display-3 fw-bold mb-4">Welcome to RVCE Alumni Portal</h1>
+            <p class="lead mb-4">Connecting generations of RVites across the globe</p>
+            <% if (!user) { %>
+                <div class="mt-4">
+                    <a href="/register" class="btn btn-rvce-gold btn-lg me-3">Join Now</a>
+                    <a href="/login" class="btn btn-outline-light btn-lg">Login</a>
+                </div>
+            <% } else { %>
+                <div class="mt-4">
+                    <a href="/dashboard" class="btn btn-rvce-gold btn-lg">Go to Dashboard</a>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-12">
+                <h2 class="section-title">What We Offer</h2>
+                <p class="text-muted">Stay connected, grow together</p>
+            </div>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h4>Job Opportunities</h4>
+                    <p>Discover and post job openings within the RVCE alumni network</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h4>Events & Reunions</h4>
+                    <p>Stay updated on alumni meets, tech talks, and networking events</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-friends"></i>
+                    </div>
+                    <h4>Mentorship</h4>
+                    <p>Connect with experienced professionals for career guidance</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h4>Messaging</h4>
+                    <p>Private messaging system to connect with fellow alumni</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h4>Network</h4>
+                    <p>Build your professional network with RVCE graduates worldwide</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h4>Career Growth</h4>
+                    <p>Access resources and opportunities for professional development</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-section py-5">
+    <div class="container">
+        <div class="row text-center text-white">
+            <div class="col-md-3 mb-4">
+                <div class="stat-item">
+                    <h2 class="display-4 fw-bold text-gold">1000+</h2>
+                    <p class="lead">Alumni Registered</p>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="stat-item">
+                    <h2 class="display-4 fw-bold text-gold">500+</h2>
+                    <p class="lead">Job Opportunities</p>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="stat-item">
+                    <h2 class="display-4 fw-bold text-gold">50+</h2>
+                    <p class="lead">Events Hosted</p>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="stat-item">
+                    <h2 class="display-4 fw-bold text-gold">200+</h2>
+                    <p class="lead">Mentorships</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Alumni Directory Preview -->
+<section class="py-5" style="background-color: #f8f9fa;">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2><i class="fas fa-users text-maroon me-2"></i>Meet Our Alumni</h2>
+            <p class="text-muted">Connect with verified RVCE alumni from around the world</p>
+        </div>
+        <div class="row" id="featuredAlumni">
+            <!-- Featured alumni will load here -->
+        </div>
+        <div class="text-center mt-4">
+            <a href="/directory" class="btn btn-rvce-maroon">
+                <i class="fas fa-users me-2"></i>View Full Directory
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section py-5">
+    <div class="container text-center">
+        <h2 class="mb-4">Ready to Connect?</h2>
+        <p class="lead mb-4">Join the RVCE Alumni community today and unlock endless opportunities</p>
+        <% if (!user) { %>
+            <a href="/register" class="btn btn-rvce-gold btn-lg">Get Started</a>
+        <% } %>
+    </div>
+</section>
+
+<script>
+// Load featured alumni on homepage
+async function loadFeaturedAlumni() {
+    try {
+        const response = await fetch('/api/alumni/public?limit=6');
+        const data = await response.json();
+        
+        if (data.success && data.data.length > 0) {
+            const container = document.getElementById('featuredAlumni');
+            container.innerHTML = data.data.slice(0, 6).map(alumnus => `
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 text-center">
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <i class="fas fa-user-circle fa-3x text-maroon"></i>
+                            </div>
+                            <h5 class="card-title">${alumnus.name}</h5>
+                            <p class="text-muted mb-2">${alumnus.branch} '${String(alumnus.graduation_year).slice(-2)}</p>
+                            ${alumnus.company ? `<p class="mb-2"><i class="fas fa-building text-gold me-1"></i>${alumnus.company}</p>` : ''}
+                            ${alumnus.city ? `<p class="text-muted small"><i class="fas fa-map-marker-alt me-1"></i>${alumnus.city}</p>` : ''}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+    } catch (error) {
+        console.error('Load featured alumni error:', error);
+    }
+}
+
+// Load on page load
+if (document.getElementById('featuredAlumni')) {
+    loadFeaturedAlumni();
+}
+</script>

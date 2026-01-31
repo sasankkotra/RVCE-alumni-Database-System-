@@ -1,0 +1,75 @@
+<div class="container mt-4">
+    <h2 class="page-title mb-4"><i class="fas fa-user me-2"></i>My Profile</h2>
+    
+    <div class="row">
+        <div class="col-md-8">
+            <div class="content-card">
+                <form id="profileForm">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Name</label>
+                            <input type="text" class="form-control" name="name" id="name">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" name="email" id="email" readonly>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Company</label>
+                            <input type="text" class="form-control" name="company" id="company">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Field</label>
+                            <input type="text" class="form-control" name="field" id="field">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Phone</label>
+                            <input type="tel" class="form-control" name="phone" id="phone">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">LinkedIn URL</label>
+                            <input type="url" class="form-control" name="linkedin_url" id="linkedin_url">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">GitHub URL</label>
+                            <input type="url" class="form-control" name="github_url" id="github_url">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">City</label>
+                            <input type="text" class="form-control" name="city" id="city">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">State</label>
+                            <input type="text" class="form-control" name="state" id="state">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Country</label>
+                            <input type="text" class="form-control" name="country" id="country">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-rvce-maroon">
+                        <i class="fas fa-save me-2"></i>Update Profile
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="content-card">
+                <h5>Profile Information</h5>
+                <p><strong>Branch:</strong> <span id="profileBranch"></span></p>
+                <p><strong>Graduation Year:</strong> <span id="profileYear"></span></p>
+                <p><strong>Verified:</strong> <span id="profileVerified"></span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/profile.js"></script>

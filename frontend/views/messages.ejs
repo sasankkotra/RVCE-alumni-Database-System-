@@ -1,0 +1,56 @@
+<div class="container mt-4">
+    <h2 class="page-title mb-4"><i class="fas fa-envelope me-2"></i>Messages</h2>
+    
+    <button class="btn btn-rvce-maroon mb-4" data-bs-toggle="modal" data-bs-target="#composeModal">
+        <i class="fas fa-plus me-2"></i>Compose Message
+    </button>
+    
+    <ul class="nav nav-tabs mb-4">
+        <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#inbox">Inbox</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#sent">Sent</a></li>
+    </ul>
+    
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="inbox">
+            <div id="inboxContainer">Loading...</div>
+        </div>
+        <div class="tab-pane fade" id="sent">
+            <div id="sentContainer">Loading...</div>
+        </div>
+    </div>
+</div>
+
+<!-- Compose Modal -->
+<div class="modal fade" id="composeModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Compose Message</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="composeForm">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Receiver Alumni ID *</label>
+                        <input type="number" class="form-control" name="receiver_id" required>
+                        <small class="text-muted">Find alumni ID from their profile</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Subject *</label>
+                        <input type="text" class="form-control" name="subject" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Message *</label>
+                        <textarea class="form-control" name="body" rows="5" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-rvce-maroon">Send Message</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="/js/messages.js"></script>

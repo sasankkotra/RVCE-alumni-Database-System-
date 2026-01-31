@@ -1,0 +1,129 @@
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="page-title mb-4">
+                <i class="fas fa-tachometer-alt me-2"></i>
+                <% if (user.role === 'admin') { %>
+                    Admin Dashboard
+                <% } else { %>
+                    Alumni Dashboard
+                <% } %>
+            </h2>
+        </div>
+    </div>
+    
+    <div id="alert-container"></div>
+    
+    <!-- Stats Cards -->
+    <div class="row g-4 mb-4" id="statsContainer">
+        <div class="col-md-3">
+            <div class="stats-card">
+                <div class="stats-icon bg-primary">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stats-info">
+                    <h3 id="stat-alumni">-</h3>
+                    <p>Alumni</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stats-card">
+                <div class="stats-icon bg-success">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+                <div class="stats-info">
+                    <h3 id="stat-jobs">-</h3>
+                    <p>Active Jobs</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stats-card">
+                <div class="stats-icon bg-warning">
+                    <i class="fas fa-calendar"></i>
+                </div>
+                <div class="stats-info">
+                    <h3 id="stat-events">-</h3>
+                    <p>Upcoming Events</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stats-card">
+                <div class="stats-icon bg-info">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="stats-info">
+                    <h3 id="stat-messages">-</h3>
+                    <p>Messages</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <% if (user.role === 'admin') { %>
+        <!-- Admin Content -->
+        <div class="row g-4">
+            <div class="col-md-8">
+                <div class="content-card">
+                    <h5 class="card-title mb-3">Pending Verifications</h5>
+                    <div id="pendingVerifications">Loading...</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="content-card">
+                    <h5 class="card-title mb-3">Quick Actions</h5>
+                    <div class="d-grid gap-2">
+                        <a href="/admin" class="btn btn-rvce-maroon">Manage Alumni</a>
+                        <a href="/events" class="btn btn-outline-maroon">Manage Events</a>
+                        <a href="/jobs" class="btn btn-outline-maroon">View Jobs</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% } else { %>
+        <!-- Alumni Content -->
+        <div class="row g-4">
+            <div class="col-md-8">
+                <div class="content-card mb-4">
+                    <h5 class="card-title mb-3">Recent Job Postings</h5>
+                    <div id="recentJobs">Loading...</div>
+                </div>
+                <div class="content-card">
+                    <h5 class="card-title mb-3">Upcoming Events</h5>
+                    <div id="upcomingEvents">Loading...</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="content-card mb-4">
+                    <h5 class="card-title mb-3">Profile Status</h5>
+                    <div id="profileStatus">
+                        <% if (!user.verified) { %>
+                            <div class="alert alert-warning">
+                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                Your account is pending verification
+                            </div>
+                        <% } else { %>
+                            <div class="alert alert-success">
+                                <i class="fas fa-check-circle me-2"></i>
+                                Account verified
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+                <div class="content-card">
+                    <h5 class="card-title mb-3">Quick Actions</h5>
+                    <div class="d-grid gap-2">
+                        <a href="/jobs" class="btn btn-rvce-maroon">Browse Jobs</a>
+                        <a href="/events" class="btn btn-outline-maroon">View Events</a>
+                        <a href="/mentorship" class="btn btn-outline-maroon">Find Mentors</a>
+                        <a href="/messages" class="btn btn-outline-maroon">Messages</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% } %>
+</div>
+
+<script src="/js/dashboard.js"></script>
