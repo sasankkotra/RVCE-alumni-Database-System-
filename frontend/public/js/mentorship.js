@@ -29,26 +29,26 @@ async function searchMentors() {
                         <div class="content-card h-100">
                             <div class="d-flex justify-content-between align-items-start mb-3">
                                 <div class="flex-grow-1">
-                                    <h5 class="mb-2">${mentor.name}</h5>
-                                    <p class="mb-1 text-muted">
+                                    <h5 class="mb-2" style="font-weight: 600; color: #212529;">${mentor.name}</h5>
+                                    <p class="mb-1" style="font-weight: 500; color: #495057;">
                                         <i class="fas fa-graduation-cap me-2 text-maroon"></i>
                                         ${mentor.branch} '${String(mentor.graduation_year).slice(-2)}
                                     </p>
                                     ${mentor.company ? `
-                                        <p class="mb-1">
+                                        <p class="mb-1" style="font-weight: 500; color: #212529;">
                                             <i class="fas fa-building me-2 text-gold"></i>
                                             ${mentor.company}
                                         </p>
                                     ` : ''}
                                     ${mentor.field ? `
-                                        <p class="mb-1">
-                                            <i class="fas fa-code me-2 text-muted"></i>
+                                        <p class="mb-1" style="font-weight: 500; color: #495057;">
+                                            <i class="fas fa-code me-2"></i>
                                             ${mentor.field}
                                         </p>
                                     ` : ''}
                                     ${mentor.city ? `
-                                        <p class="mb-0">
-                                            <i class="fas fa-map-marker-alt me-2 text-muted"></i>
+                                        <p class="mb-0" style="font-weight: 500; color: #495057;">
+                                            <i class="fas fa-map-marker-alt me-2"></i>
                                             ${mentor.city}${mentor.country ? ', ' + mentor.country : ''}
                                         </p>
                                     ` : ''}
@@ -123,22 +123,22 @@ async function loadSentRequests() {
                     <div class="col-md-6 mb-3">
                         <div class="content-card h-100">
                             <div class="d-flex justify-content-between align-items-start mb-2">
-                                <h5 class="mb-0">${req.mentor_name}</h5>
+                                <h5 class="mb-0" style="font-weight: 600; color: #212529;">${req.mentor_name}</h5>
                                 <span class="badge bg-${statusClass}">
                                     <i class="fas fa-${statusIcon} me-1"></i>${req.status.toUpperCase()}
                                 </span>
                             </div>
-                            ${req.company ? `<p class="mb-1"><i class="fas fa-building me-2 text-gold"></i>${req.company}</p>` : ''}
-                            ${req.field ? `<p class="mb-1"><i class="fas fa-code me-2 text-muted"></i>${req.field}</p>` : ''}
-                            <p class="mb-1 text-muted small">
+                            ${req.company ? `<p class="mb-1" style="font-weight: 500; color: #212529;"><i class="fas fa-building me-2 text-gold"></i>${req.company}</p>` : ''}
+                            ${req.field ? `<p class="mb-1" style="font-weight: 500; color: #495057;"><i class="fas fa-code me-2"></i>${req.field}</p>` : ''}
+                            <p class="mb-1" style="font-weight: 500; color: #6c757d; font-size: 0.9rem;">
                                 <i class="fas fa-calendar me-1"></i>
                                 Requested: ${formatDate(req.requested_at)}
                             </p>
                             ${req.status === 'accepted' ? `
                                 <div class="alert alert-success mt-2 mb-0" style="padding: 8px;">
-                                    <strong><i class="fas fa-check-circle me-1"></i>Connection Established!</strong><br>
-                                    ${req.mentor_email ? `<small><i class="fas fa-envelope me-1"></i>${req.mentor_email}</small><br>` : ''}
-                                    ${req.mentor_phone ? `<small><i class="fas fa-phone me-1"></i>${req.mentor_phone}</small>` : ''}
+                                    <strong style="font-weight: 600;"><i class="fas fa-check-circle me-1"></i>Connection Established!</strong><br>
+                                    ${req.mentor_email ? `<small style="font-weight: 500;"><i class="fas fa-envelope me-1"></i>${req.mentor_email}</small><br>` : ''}
+                                    ${req.mentor_phone ? `<small style="font-weight: 500;"><i class="fas fa-phone me-1"></i>${req.mentor_phone}</small>` : ''}
                                 </div>
                             ` : ''}
                         </div>
@@ -186,17 +186,17 @@ async function loadReceivedRequests() {
                     <div class="col-md-6 mb-3">
                         <div class="content-card h-100">
                             <div class="d-flex justify-content-between align-items-start mb-2">
-                                <h5 class="mb-0">${req.mentee_name}</h5>
+                                <h5 class="mb-0" style="font-weight: 600; color: #212529;">${req.mentee_name}</h5>
                                 <span class="badge bg-${statusClass}">
                                     <i class="fas fa-${statusIcon} me-1"></i>${req.status.toUpperCase()}
                                 </span>
                             </div>
-                            <p class="mb-1">
+                            <p class="mb-1" style="font-weight: 500; color: #495057;">
                                 <i class="fas fa-graduation-cap me-2 text-maroon"></i>
                                 ${req.branch} '${String(req.graduation_year).slice(-2)}
                             </p>
-                            ${req.company ? `<p class="mb-1"><i class="fas fa-building me-2 text-gold"></i>${req.company}</p>` : ''}
-                            <p class="mb-2 text-muted small">
+                            ${req.company ? `<p class="mb-1" style="font-weight: 500; color: #212529;"><i class="fas fa-building me-2 text-gold"></i>${req.company}</p>` : ''}
+                            <p class="mb-2" style="font-weight: 500; color: #6c757d; font-size: 0.9rem;">
                                 <i class="fas fa-calendar me-1"></i>
                                 Requested: ${formatDate(req.requested_at)}
                             </p>
@@ -211,12 +211,12 @@ async function loadReceivedRequests() {
                                 </div>
                             ` : req.status === 'accepted' ? `
                                 <div class="alert alert-success mt-2 mb-0" style="padding: 8px;">
-                                    <strong><i class="fas fa-check-circle me-1"></i>Connection Established!</strong><br>
-                                    ${req.mentee_email ? `<small><i class="fas fa-envelope me-1"></i>${req.mentee_email}</small><br>` : ''}
-                                    ${req.mentee_phone ? `<small><i class="fas fa-phone me-1"></i>${req.mentee_phone}</small>` : ''}
+                                    <strong style="font-weight: 600;"><i class="fas fa-check-circle me-1"></i>Connection Established!</strong><br>
+                                    ${req.mentee_email ? `<small style="font-weight: 500;"><i class="fas fa-envelope me-1"></i>${req.mentee_email}</small><br>` : ''}
+                                    ${req.mentee_phone ? `<small style="font-weight: 500;"><i class="fas fa-phone me-1"></i>${req.mentee_phone}</small>` : ''}
                                 </div>
                             ` : `
-                                <p class="mb-0 text-muted small">
+                                <p class="mb-0" style="font-weight: 500; color: #6c757d; font-size: 0.9rem;">
                                     <i class="fas fa-info-circle me-1"></i>
                                     You ${req.status} this request
                                 </p>

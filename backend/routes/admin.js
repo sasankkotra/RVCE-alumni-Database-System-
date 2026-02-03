@@ -326,6 +326,36 @@ router.get('/jobs', async (req, res) => {
     }
 });
 
+// @route   DELETE /api/admin/jobs/:id
+// @desc    Delete job posting
+// @access  Private (Admin only)
+router.delete('/jobs/:id', async (req, res) => {
+    try {
+        const job_id = req.params.id;
+
+        const [result] = await db.query('DELETE FROM job_posting WHERE job_id = ?', [job_id]);
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ 
+                success: false, 
+                message: 'Job not found' 
+            });
+        }
+
+        res.json({
+            success: true,
+            message: 'Job deleted successfully'
+        });
+
+    } catch (error) {
+        console.error('Delete job error:', error);
+        res.status(500).json({ 
+            success: false, 
+            message: 'Server error' 
+        });
+    }
+});
+
 // @route   GET /api/admin/reports/queries
 // @desc    Run useful database queries for reports
 // @access  Private (Admin only)

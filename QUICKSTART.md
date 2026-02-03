@@ -2,37 +2,90 @@
 
 ## 🚀 Quick Setup (5 minutes)
 
-### Step 1: Install Dependencies
+### Prerequisites
+- Node.js (v18 or higher)
+- MySQL (v8.0 or higher)
+- Git
+
+### Step 1: Clone the Repository
+```bash
+git clone <repository-url>
+cd alumni_DBMS
+```
+
+### Step 2: Install Dependencies
 ```bash
 cd backend
 npm install
 ```
 
-### Step 2: Setup MySQL Database
-```bash
-# Login to MySQL
-mysql -u root -p
+### Step 3: Setup MySQL Database
 
-# Exit and import schema
-mysql -u root -p < ../db/schema.sql
+Run this command to set up the database:
+
+```bash
+# From the project root directory
+mysql -u root -p < db/schema.sql
+
+# Enter your MySQL root password when prompted
 ```
 
-### Step 3: Configure Environment
+This will:
+- Create the `alumnirvce` database (if it doesn't exist)
+- Set up all tables
+- Add sample data (5 alumni, 2 admins, 5 events, 5 jobs)
+
+**✅ Safe to run anytime!** It won't delete your registered alumni.
+
+### Step 4: Configure Environment
 ```bash
+# Make sure you're in the backend directory
+cd backend
+
 # Copy environment template
 cp .env.example .env
 
-# Edit .env and set your MySQL password
-# DB_PASSWORD=your_mysql_password_here
+# Edit .env file and set your MySQL credentials
+# Important: Change DB_PASSWORD to your MySQL root password
 ```
 
-### Step 4: Start Server
+Your `.env` should look like:
+```env
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=your_mysql_password_here
+DB_NAME=alumnirvce
+DB_PORT=3306
+
+JWT_SECRET=your_jwt_secret_key_here_change_in_production
+JWT_EXPIRES_IN=24h
+
+PORT=3000
+NODE_ENV=development
+```
+
+### Step 5: Start the Server
 ```bash
+# From the backend directory
+node server.js
+
+# OR use npm start
 npm start
 ```
 
-### Step 5: Access Application
-Open browser: **http://localhost:3000**
+You should see:
+```
+╔═══════════════════════════════════════════╗
+║   RVCE Alumni Portal Server Running       ║
+║   Port: 3000                              ║
+║   Environment: development                ║
+╚═══════════════════════════════════════════╝
+
+✓ Database connected successfully
+```
+
+### Step 6: Access Application
+Open your browser and go to: **http://localhost:3000**
 
 ## 🔑 Test Credentials
 

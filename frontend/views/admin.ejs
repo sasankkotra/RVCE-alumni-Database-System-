@@ -1,12 +1,32 @@
 <div class="container mt-4">
     <h2 class="page-title mb-4"><i class="fas fa-cog me-2"></i>Admin Panel</h2>
     
-    <ul class="nav nav-tabs mb-4">
-        <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#verifications">Verifications</a></li>
-        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#allAlumni">All Alumni</a></li>
-        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#manageEvents">Manage Events</a></li>
-        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#reports">Reports</a></li>
+    <ul class="nav nav-tabs mb-4" id="adminTabs" style="border-bottom: 3px solid #8B0000; background-color: #f8f9fa; padding: 10px;">
+        <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#verifications" style="font-weight: 600; font-size: 1rem; color: #212529;">Verifications</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#allAlumni" style="font-weight: 600; font-size: 1rem; color: #212529;">All Alumni</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#manageJobs" style="font-weight: 600; font-size: 1rem; color: #212529;">Manage Jobs</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#manageEvents" style="font-weight: 600; font-size: 1rem; color: #212529;">Manage Events</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#reports" style="font-weight: 600; font-size: 1rem; color: #212529;">Reports</a></li>
     </ul>
+    
+    <style>
+        #adminTabs .nav-link {
+            padding: 12px 20px;
+            margin: 0 3px;
+            border-radius: 8px 8px 0 0;
+            transition: all 0.3s;
+        }
+        #adminTabs .nav-link:hover {
+            background-color: #fff;
+            color: #8B0000 !important;
+            border: 2px solid #8B0000;
+        }
+        #adminTabs .nav-link.active {
+            background-color: #8B0000 !important;
+            color: #fff !important;
+            border: 2px solid #8B0000;
+        }
+    </style>
     
     <div class="tab-content">
         <div class="tab-pane fade show active" id="verifications">
@@ -14,6 +34,9 @@
         </div>
         <div class="tab-pane fade" id="allAlumni">
             <div id="alumniContainer">Loading...</div>
+        </div>
+        <div class="tab-pane fade" id="manageJobs">
+            <div id="jobsContainer">Loading...</div>
         </div>
         <div class="tab-pane fade" id="manageEvents">
             <button class="btn btn-rvce-maroon mb-3" data-bs-toggle="modal" data-bs-target="#createEventModal">

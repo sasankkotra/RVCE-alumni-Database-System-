@@ -155,6 +155,7 @@ async function loadDirectory() {
                                 <div>
                                     <h5 class="card-title mb-1">${alumnus.name}</h5>
                                     <span class="badge bg-success">${alumnus.branch} '${String(alumnus.graduation_year).slice(-2)}</span>
+                                    ${alumnus.alumni_id ? `<span class="badge bg-secondary ms-1">ID: ${alumnus.alumni_id}</span>` : ''}
                                 </div>
                                 ${alumnus.verified ? '<i class="fas fa-check-circle text-success" title="Verified"></i>' : ''}
                             </div>
@@ -241,12 +242,22 @@ async function aiSearch() {
             const alumni = data.data;
             totalCount.textContent = alumni.length;
             
-            // Show AI-powered badge
+            // Show AI-powered or fuzzy match badge
             const searchHeader = document.querySelector('.card-title');
-            if (data.aiPowered && !searchHeader.querySelector('.ai-result-badge')) {
+            const existingBadge = searchHeader.querySelector('.ai-result-badge');
+            if (existingBadge) existingBadge.remove();
+            
+            if (data.aiPowered) {
                 const badge = document.createElement('span');
                 badge.className = 'badge bg-success ms-2 ai-result-badge';
-                badge.innerHTML = '<i class="fas fa-check-circle me-1"></i>AI Results';
+                badge.innerHTML = '<i class="fas fa-robot me-1"></i>AI-Powered';
+                badge.title = 'Results powered by Google Gemini AI';
+                searchHeader.appendChild(badge);
+            } else if (data.fuzzyMatch) {
+                const badge = document.createElement('span');
+                badge.className = 'badge bg-info ms-2 ai-result-badge';
+                badge.innerHTML = '<i class="fas fa-magic me-1"></i>Smart Search';
+                badge.title = 'Results with semantic understanding and typo tolerance';
                 searchHeader.appendChild(badge);
             }
             
@@ -254,8 +265,14 @@ async function aiSearch() {
                 alumniGrid.innerHTML = `
                     <div class="col-12 text-center py-5">
                         <i class="fas fa-search fa-3x text-muted mb-3"></i>
-                        <h5>No alumni found</h5>
-                        <p class="text-muted">Try a different search term or use advanced filters</p>
+                        <h5>No alumni found for "${query}"</h5>
+                        <p class="text-muted">Try different keywords like:</p>
+                        <ul class="list-unstyled text-muted">
+                            <li>• "software developer" or "web development"</li>
+                            <li>• "IC design" or "VLSI" or "chip design"</li>
+                            <li>• "machine learning" or "AI" or "data science"</li>
+                            <li>• "mechanical engineering" or "automotive"</li>
+                        </ul>
                     </div>
                 `;
                 return;
@@ -269,6 +286,7 @@ async function aiSearch() {
                                 <div>
                                     <h5 class="card-title mb-1">${alumnus.name}</h5>
                                     <span class="badge bg-success">${alumnus.branch} '${String(alumnus.graduation_year).slice(-2)}</span>
+                                    ${alumnus.alumni_id ? `<span class="badge bg-secondary ms-1">ID: ${alumnus.alumni_id}</span>` : ''}
                                 </div>
                                 ${alumnus.verified ? '<i class="fas fa-check-circle text-success" title="Verified"></i>' : ''}
                             </div>

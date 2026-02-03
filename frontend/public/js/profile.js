@@ -36,6 +36,7 @@ async function loadProfile() {
             document.getElementById('country').value = alumni.country || '';
             
             // Fill profile info
+            document.getElementById('profileId').textContent = alumni.alumni_id || 'N/A';
             document.getElementById('profileBranch').textContent = alumni.branch;
             document.getElementById('profileYear').textContent = alumni.graduation_year;
             document.getElementById('profileVerified').textContent = alumni.verified ? 

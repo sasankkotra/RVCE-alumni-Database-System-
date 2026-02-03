@@ -341,6 +341,17 @@ main {
 .table thead {
     background-color: var(--rvce-maroon);
     color: white;
+    font-weight: 600;
+}
+
+.table tbody td {
+    font-weight: 500;
+    color: #212529;
+}
+
+.text-muted {
+    color: #6c757d !important;
+    font-weight: 500;
 }
 
 /* CTA Section */

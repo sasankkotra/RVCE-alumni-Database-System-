@@ -11,12 +11,10 @@ router.get('/', verifyToken, async (req, res) => {
         const [events] = await db.query(`
             SELECT e.*, 
                    COUNT(ep.alumni_id) as participants_count,
-                   COALESCE(ad.name, al.name) as created_by_name,
-                   CASE WHEN e.created_by_alumni_id IS NOT NULL THEN 'alumni' ELSE 'admin' END as creator_type
+                   ad.name as created_by_name
             FROM event e
             LEFT JOIN event_participation ep ON e.event_id = ep.event_id
             LEFT JOIN admin ad ON e.created_by = ad.admin_id
-            LEFT JOIN alumni al ON e.created_by_alumni_id = al.alumni_id
             GROUP BY e.event_id
             ORDER BY e.event_date DESC
         `);
@@ -43,11 +41,9 @@ router.get('/:id', verifyToken, async (req, res) => {
     try {
         const [events] = await db.query(`
             SELECT e.*, 
-                   COALESCE(ad.name, al.name) as created_by_name,
-                   CASE WHEN e.created_by_alumni_id IS NOT NULL THEN 'alumni' ELSE 'admin' END as creator_type
+                   ad.name as created_by_name
             FROM event e
             LEFT JOIN admin ad ON e.created_by = ad.admin_id
-            LEFT JOIN alumni al ON e.created_by_alumni_id = al.alumni_id
             WHERE e.event_id = ?
         `, [req.params.id]);
 
@@ -209,7 +205,7 @@ router.post('/', verifyToken, isAlumni, isVerified, async (req, res) => {
         }
 
         const [result] = await db.query(
-            `INSERT INTO event (name, description, event_date, location, created_by_alumni_id) 
+            `INSERT INTO event (name, description, event_date, location, created_by) 
              VALUES (?, ?, ?, ?, ?)`,
             [name, description, event_date, location, req.user.id]
         );

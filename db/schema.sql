@@ -1,17 +1,16 @@
 -- =============================================
 -- RVCE Alumni Portal Database Schema
 -- Database: alumnirvce
--- Character Set: utf8mb4_unicode_ci
+-- SAFE VERSION - Keeps your registered alumni!
 -- =============================================
 
-DROP DATABASE IF EXISTS alumnirvce;
-CREATE DATABASE alumnirvce CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE IF NOT EXISTS alumnirvce CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE alumnirvce;
 
 -- =============================================
 -- Table: admin
 -- =============================================
-CREATE TABLE admin (
+CREATE TABLE IF NOT EXISTS admin (
     admin_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
@@ -23,7 +22,7 @@ CREATE TABLE admin (
 -- =============================================
 -- Table: alumni
 -- =============================================
-CREATE TABLE alumni (
+CREATE TABLE IF NOT EXISTS alumni (
     alumni_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
@@ -45,7 +44,7 @@ CREATE TABLE alumni (
 -- =============================================
 -- Table: alumni_contact
 -- =============================================
-CREATE TABLE alumni_contact (
+CREATE TABLE IF NOT EXISTS alumni_contact (
     contact_id INT AUTO_INCREMENT PRIMARY KEY,
     alumni_id INT NOT NULL,
     phone VARCHAR(15),
@@ -58,7 +57,7 @@ CREATE TABLE alumni_contact (
 -- =============================================
 -- Table: alumni_location
 -- =============================================
-CREATE TABLE alumni_location (
+CREATE TABLE IF NOT EXISTS alumni_location (
     location_id INT AUTO_INCREMENT PRIMARY KEY,
     alumni_id INT NOT NULL,
     city VARCHAR(100) NOT NULL,
@@ -72,7 +71,7 @@ CREATE TABLE alumni_location (
 -- =============================================
 -- Table: job_posting
 -- =============================================
-CREATE TABLE job_posting (
+CREATE TABLE IF NOT EXISTS job_posting (
     job_id INT AUTO_INCREMENT PRIMARY KEY,
     posted_by INT NOT NULL,
     title VARCHAR(200) NOT NULL,
@@ -94,7 +93,7 @@ CREATE TABLE job_posting (
 -- =============================================
 -- Table: event
 -- =============================================
-CREATE TABLE event (
+CREATE TABLE IF NOT EXISTS event (
     event_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(200) NOT NULL,
     description TEXT,
@@ -110,7 +109,7 @@ CREATE TABLE event (
 -- =============================================
 -- Table: event_participation (M:N relationship)
 -- =============================================
-CREATE TABLE event_participation (
+CREATE TABLE IF NOT EXISTS event_participation (
     participation_id INT AUTO_INCREMENT PRIMARY KEY,
     event_id INT NOT NULL,
     alumni_id INT NOT NULL,
@@ -125,7 +124,7 @@ CREATE TABLE event_participation (
 -- =============================================
 -- Table: mentorship
 -- =============================================
-CREATE TABLE mentorship (
+CREATE TABLE IF NOT EXISTS mentorship (
     mentorship_id INT AUTO_INCREMENT PRIMARY KEY,
     mentor_id INT NOT NULL,
     mentee_id INT NOT NULL,
@@ -141,6 +140,7 @@ CREATE TABLE mentorship (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Trigger to prevent self-mentorship
+DROP TRIGGER IF EXISTS prevent_self_mentorship;
 DELIMITER //
 CREATE TRIGGER prevent_self_mentorship
 BEFORE INSERT ON mentorship
@@ -155,7 +155,7 @@ DELIMITER ;
 
 -- =============================================
 -- Table: message
--- =============================================
+-- ==========IF NOT EXISTS ===================================
 CREATE TABLE message (
     message_id INT AUTO_INCREMENT PRIMARY KEY,
     sender_id INT NOT NULL,
@@ -176,20 +176,20 @@ CREATE TABLE message (
 -- Sample Data: Admin Accounts
 -- =============================================
 -- Password for all: admin123 (bcrypt hash with salt rounds=10)
-INSERT INTO admin (name, email, password_hash) VALUES
-('Dr. Rajesh Kumar', 'admin@rvce.edu.in', '$2b$10$YQk8Y5b3zVxW7xJ0Q5xZZ.nBXGJ4xJ7K8Z3xJ0Q5xZZ.nBXGJ4xJ7e'),
-('Prof. Anita Sharma', 'anita.sharma@rvce.edu.in', '$2b$10$YQk8Y5b3zVxW7xJ0Q5xZZ.nBXGJ4xJ7K8Z3xJ0Q5xZZ.nBXGJ4xJ7e');
+INSERT IGNORE INTO admin (name, email, password_hash) VALUES
+('Dr. Rajesh Kumar', 'admin@rvce.edu.in', '$2b$10$Mhlq0wwgB0YDZfaiGdezsu1ZB.Mc8HulfxowgU1xgYjhCUUNHRPve'),
+('Prof. Anita Sharma', 'anita.sharma@rvce.edu.in', '$2b$10$Mhlq0wwgB0YDZfaiGdezsu1ZB.Mc8HulfxowgU1xgYjhCUUNHRPve');
 
 -- =============================================
 -- Sample Data: 5 RVCE Alumni
 -- =============================================
 -- Password for all: alumni123 (bcrypt hash)
-INSERT INTO alumni (name, email, password_hash, branch, graduation_year, company, field, verified) VALUES
-('Arjun Reddy', 'arjun.reddy@nvidia.com', '$2b$10$8L9Z2xJ0Q5xZZ.nBXGJ4xJ7K8Z3xJ0Q5xZZ.nBXGJ4xJ7K8Z3xJ0Q5', 'ISE', 2018, 'Nvidia', 'Artificial Intelligence', TRUE),
-('Priya Menon', 'priya.menon@google.com', '$2b$10$8L9Z2xJ0Q5xZZ.nBXGJ4xJ7K8Z3xJ0Q5xZZ.nBXGJ4xJ7K8Z3xJ0Q5', 'CSE', 2019, 'Google', 'Software Engineering', TRUE),
-('Vikram Singh', 'vikram.singh@amazon.in', '$2b$10$8L9Z2xJ0Q5xZZ.nBXGJ4xJ7K8Z3xJ0Q5xZZ.nBXGJ4xJ7K8Z3xJ0Q5', 'ECE', 2017, 'Amazon', 'Cloud Computing', TRUE),
-('Sneha Patel', 'sneha.patel@microsoft.com', '$2b$10$8L9Z2xJ0Q5xZZ.nBXGJ4xJ7K8Z3xJ0Q5xZZ.nBXGJ4xJ7K8Z3xJ0Q5', 'ISE', 2020, 'Microsoft', 'Machine Learning', TRUE),
-('Rahul Iyer', 'rahul.iyer@flipkart.com', '$2b$10$8L9Z2xJ0Q5xZZ.nBXGJ4xJ7K8Z3xJ0Q5xZZ.nBXGJ4xJ7K8Z3xJ0Q5', 'CSE', 2016, 'Flipkart', 'Full Stack Development', TRUE);
+INSERT IGNORE INTO alumni (name, email, password_hash, branch, graduation_year, company, field, verified) VALUES
+('Arjun Reddy', 'arjun.reddy@nvidia.com', '$2b$10$u0scvuBTJ1MC52nKjw.SEezchdeHOtnSRs0AvDdgQLHmeA.EkiMz.', 'ISE', 2018, 'Nvidia', 'Artificial Intelligence', TRUE),
+('Priya Menon', 'priya.menon@google.com', '$2b$10$u0scvuBTJ1MC52nKjw.SEezchdeHOtnSRs0AvDdgQLHmeA.EkiMz.', 'CSE', 2019, 'Google', 'Software Engineering', TRUE),
+('Vikram Singh', 'vikram.singh@amazon.in', '$2b$10$u0scvuBTJ1MC52nKjw.SEezchdeHOtnSRs0AvDdgQLHmeA.EkiMz.', 'ECE', 2017, 'Amazon', 'Cloud Computing', TRUE),
+('Sneha Patel', 'sneha.patel@microsoft.com', '$2b$10$u0scvuBTJ1MC52nKjw.SEezchdeHOtnSRs0AvDdgQLHmeA.EkiMz.', 'ISE', 2020, 'Microsoft', 'Machine Learning', TRUE),
+('Rahul Iyer', 'rahul.iyer@flipkart.com', '$2b$10$u0scvuBTJ1MC52nKjw.SEezchdeHOtnSRs0AvDdgQLHmeA.EkiMz.', 'CSE', 2016, 'Flipkart', 'Full Stack Development', TRUE);
 
 -- =============================================
 -- Sample Data: Alumni Contacts
